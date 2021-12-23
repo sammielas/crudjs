@@ -3,8 +3,9 @@ const router = express.Router();
 const employeeModel = require('../models/employees');
 
 router.get('/', async (req, res) => {
-  const employees = await employeeModel.find();
-  res.json({ employees });
+  // const employees = await employeeModel.find();
+  // res.json({ employees });
+  res.render('employee/addOrEdit.hbs', { viewTitle: 'Insert Employee' });
 });
 
 router.get('/:id', async (req, res) => {
@@ -14,9 +15,10 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const employees = await new employeeModel({
-    name: req.body.name,
-    dept: req.body.dept,
-    salary: req.body.salary,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    mobile: req.body.mobile,
   });
   try {
     const data = await employees.save();
@@ -24,6 +26,9 @@ router.post('/', async (req, res) => {
   } catch (error) {
     console.log({ error });
   }
+});
+router.get('/list', (req, res) => {
+  res.json({ message: 'list sent' });
 });
 
 module.exports = router;
